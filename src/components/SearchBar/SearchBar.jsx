@@ -3,13 +3,21 @@ import css from "./SearchBar.module.css";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { galleryPage, imagesTopic } from "../../redux/QuerySlice";
+import { saveFetchedImages } from "../../redux/ResultSlice";
+import { useState } from "react";
 
-export default function SearchBar({ onSubmit }) {
+export default function SearchBar() {
+  const [input, setInput] = useState('')
 const dispatch = useDispatch()
+
+const handleInputChange = (e) => {
+  setInput(e.target.value)
+}
 
   const handleInputSubmit = (event) => {
     event.preventDefault();
-    const query = event.target.elements.searchword.value.trim();
+    // const query = event.target.elements.searchword.value.trim();
+    const query = input
     if (!query) {
       toast.error("Write your query, please!", {
         duration: 4000,
@@ -20,7 +28,9 @@ const dispatch = useDispatch()
     }
     dispatch(imagesTopic(query))
     dispatch(galleryPage(1))
-    onSubmit();
+    dispatch(saveFetchedImages([]))
+    setInput('')
+    // onSubmit();
   };
   return (
     <header className={css.header}>
@@ -30,6 +40,8 @@ const dispatch = useDispatch()
           className={css.input}
           name="searchword"
           placeholder="Search images and photos"
+          value={input}
+          onChange={handleInputChange}
         />
         <button className={css.button} type="submit">
           <BsSearch className={css.iconbtn} />
