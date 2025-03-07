@@ -19,22 +19,15 @@ function App() {
   const query = useSelector(state => state.query.images)
   const galPage = useSelector(state => state.query.page)
   const galleryArray = useSelector(state => state.gallery.fetchedImages)
-  // const [text, setText] = useState([]);
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState(false);
-  // const [topic, setTopic] = useState("");
-  // const [page, setPage] = useState(1);
   const [modal, setModal] = useState(false);
   const [bigpicture, setBigpicture] = useState(null);
 
 const dispatch = useDispatch()
 
 
-  // const handleTopicSubmit = () => {
-  //   setTopic(newTopic);
-  //   setPage(1);
-  //   setText([]);
-  // };
+
   useEffect(() => {
     if (!query) {
       return;
@@ -45,10 +38,8 @@ const dispatch = useDispatch()
         setErr(false);
         const fetchedPhotos = await fetchPhoto(query, galPage);
         dispatch(saveFetchedImages(galPage !== 1 ? [...galleryArray, ...fetchedPhotos] : fetchedPhotos))
-        // setText((prevText) =>
-        //   galPage === 1 ? fetchedPhotos : [...prevText, ...fetchedPhotos]
-        // );
       } catch (error) {
+        console.error(error)
         setErr(true);
         setLoading(false);
       } finally {
@@ -59,7 +50,6 @@ const dispatch = useDispatch()
   }, [galPage, query]);
 
   const handleLoadMore = () => {
-    // setPage((prevPage) => prevPage + 1);
     dispatch(galleryPage(galPage + 1))
   };
 
