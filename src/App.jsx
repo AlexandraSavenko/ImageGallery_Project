@@ -9,34 +9,41 @@ import ErrorMessage from "./components/ErrorMessage/ErrorMessage";
 import ImageModal from "./components/ImageModal/ImageModal";
 import Modal from "react-modal";
 import { Toaster } from "react-hot-toast";
+import { useDispatch, useSelector } from "react-redux";
+import { galleryPage } from "./redux/QuerySlice";
 
 Modal.setAppElement("#root");
 
 function App() {
+  const query = useSelector(state => state.query.images)
+  const galPage = useSelector(state => state.query.page)
   const [text, setText] = useState([]);
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState(false);
-  const [topic, setTopic] = useState("");
-  const [page, setPage] = useState(1);
+  // const [topic, setTopic] = useState("");
+  // const [page, setPage] = useState(1);
   const [modal, setModal] = useState(false);
   const [bigpicture, setBigpicture] = useState(null);
 
-  const handleTopicSubmit = (newTopic) => {
-    setTopic(newTopic);
-    setPage(1);
+const dispatch = useDispatch()
+
+
+  const handleTopicSubmit = () => {
+    // setTopic(newTopic);
+    // setPage(1);
     setText([]);
   };
   useEffect(() => {
-    if (!topic) {
+    if (!query) {
       return;
     }
     const fetchData = async () => {
       try {
         setLoading(true);
         setErr(false);
-        const fetchedPhotos = await fetchPhoto(topic, page);
+        const fetchedPhotos = await fetchPhoto(query, galPage);
         setText((prevText) =>
-          page === 1 ? fetchedPhotos : [...prevText, ...fetchedPhotos]
+          galPage === 1 ? fetchedPhotos : [...prevText, ...fetchedPhotos]
         );
       } catch (error) {
         setErr(true);
@@ -46,10 +53,11 @@ function App() {
       }
     };
     fetchData();
-  }, [page, topic]);
+  }, [galPage, query]);
 
   const handleLoadMore = () => {
-    setPage((prevPage) => prevPage + 1);
+    // setPage((prevPage) => prevPage + 1);
+    dispatch(galleryPage(galPage + 1))
   };
 
   const handleModal = (picture) => {
@@ -62,7 +70,7 @@ function App() {
   };
   return (
     <div>
-      <SearchBar onSubmit={handleTopicSubmit} value={topic} />
+      <SearchBar onSubmit={handleTopicSubmit} value={query} />
       <Toaster />
       <ImageGallery resultsArr={text} onModalOpen={handleModal} />
       {loading && <Loader />}
