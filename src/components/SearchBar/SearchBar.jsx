@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { galleryPage, imagesTopic } from "../../redux/QuerySlice";
 import { saveFetchedImages } from "../../redux/ResultSlice";
 import { useState } from "react";
+import { fetchImages } from "../../redux/galleryOps";
 
 export default function SearchBar() {
   const [input, setInput] = useState('')
@@ -28,7 +29,8 @@ const handleInputChange = (e) => {
     }
     dispatch(imagesTopic(query))
     dispatch(galleryPage(1))
-    dispatch(saveFetchedImages([]))
+    dispatch(fetchImages(query))
+    // dispatch(saveFetchedImages([]))
     setInput('')
     // onSubmit();
   };

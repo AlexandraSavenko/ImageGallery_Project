@@ -12,6 +12,7 @@ import { Toaster } from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { galleryPage } from "./redux/QuerySlice";
 import { saveFetchedImages } from "./redux/ResultSlice";
+import { fetchImages } from "./redux/galleryOps";
 
 Modal.setAppElement("#root");
 
@@ -27,27 +28,31 @@ function App() {
 const dispatch = useDispatch()
 
 
+useEffect(()=>{
+  if(!query)return;
+  dispatch(fetchImages({query, galPage, perPage: 12}))
+}, [dispatch, query, galPage])
 
-  useEffect(() => {
-    if (!query) {
-      return;
-    }
-    const fetchData = async () => {
-      try {
-        setLoading(true);
-        setErr(false);
-        const fetchedPhotos = await fetchPhoto(query, galPage);
-        dispatch(saveFetchedImages(galPage !== 1 ? [...galleryArray, ...fetchedPhotos] : fetchedPhotos))
-      } catch (error) {
-        console.error(error)
-        setErr(true);
-        setLoading(false);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchData();
-  }, [galPage, query]);
+  // useEffect(() => {
+  //   if (!query) {
+  //     return;
+  //   }
+  //   const fetchData = async () => {
+  //     try {
+  //       setLoading(true);
+  //       setErr(false);
+  //       const fetchedPhotos = await fetchPhoto(query, galPage);
+  //       dispatch(saveFetchedImages(galPage !== 1 ? [...galleryArray, ...fetchedPhotos] : fetchedPhotos))
+  //     } catch (error) {
+  //       console.error(error)
+  //       setErr(true);
+  //       setLoading(false);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+  //   fetchData();
+  // }, [galPage, query]);
 
   const handleLoadMore = () => {
     dispatch(galleryPage(galPage + 1))
