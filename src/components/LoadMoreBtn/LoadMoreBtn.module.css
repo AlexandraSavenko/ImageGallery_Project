@@ -1,5 +1,6 @@
 .button {
   background-color: rgba(69, 69, 240, 0.795);
+  color: #fff
 }
 .button:hover,
 .button:focus {
