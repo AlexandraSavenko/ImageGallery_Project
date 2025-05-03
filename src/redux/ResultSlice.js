@@ -2,22 +2,25 @@ import { createSlice } from "@reduxjs/toolkit";
 import { fetchImages } from "./galleryOps";
 
 export const loadingResult = state => state.gallery.loading
+export const errorResult = state => state.gallery.error
 
 const slice = createSlice({
     name: 'imagesGallery',
     initialState: {
         loading: false,
+        error: null,
         fetchedImages: []
     },
     extraReducers: (builder) => {builder
         .addCase(fetchImages.pending, (state) => {state.loading = true})
         .addCase(fetchImages.fulfilled, (state,action) => {
-            console.log(state.fetchedImages.length > 0)
             if(state.fetchedImages.length > 0) state.fetchedImages = [...state.fetchedImages, ...action.payload];
         state.fetchedImages = action.payload
             console.log(state.fetchedImages)
-        state.loading = false;
-    })}
+        state.loading = false;})
+        .addCase(fetchImages.rejected, (state, action) => {state.loading = false
+            state.error = action.payload
+        })}
     // reducers: {
     //     saveFetchedImages(state, action){
     //         state.fetchedImages = action.payload

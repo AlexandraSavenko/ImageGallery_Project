@@ -14,7 +14,6 @@ const slice = createSlice({
     reducers: {
         imagesTopic(state, action){
             state.params.query = action.payload;
-            console.log(state.params.query)
         },
         galleryPage(state, action){
             state.params.page = action.payload

@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import "./App.css";
 import SearchBar from "./components/SearchBar/SearchBar";
 import ImageGallery from "./components/ImageGallery/ImageGallery";
-// import { fetchPhoto } from "./fetchPhoto";
 import LoadMoreButton from "./components/LoadMoreBtn/LoadMoreBtn";
 import Loader from "./components/Loader/Loader";
 import ErrorMessage from "./components/ErrorMessage/ErrorMessage";
@@ -12,17 +11,15 @@ import { Toaster } from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { galleryPage, queryParams } from "./redux/QuerySlice";
 import { fetchImages } from "./redux/galleryOps";
-import { loadingResult } from "./redux/ResultSlice";
+import { errorResult, loadingResult } from "./redux/ResultSlice";
 
 Modal.setAppElement("#root");
 
 function App() {
-  const {query, page} = useSelector(queryParams)
+  const {query, galPage} = useSelector(queryParams)
+  const error = useSelector(errorResult)
   const galleryArray = useSelector(state => state.gallery.fetchedImages)
-  const galPage = query.page
   const loading = useSelector(loadingResult)
-  // const [loading, setLoading] = useState(false);
-  // const [err, setErr] = useState(false);
   const [modal, setModal] = useState(false);
   const [bigpicture, setBigpicture] = useState(null);
 
@@ -30,8 +27,8 @@ const dispatch = useDispatch()
 
 useEffect(()=>{
   if(!query)return;
-  dispatch(fetchImages({query: query, page: page, perPage: 12}))
-}, [dispatch, query])
+  dispatch(fetchImages({query: query, page: galPage, perPage: 12}))
+}, [dispatch, query, galPage])
 
   const handleLoadMore = () => {
     dispatch(galleryPage(galPage + 1))
@@ -52,7 +49,7 @@ useEffect(()=>{
       <ImageGallery resultsArr={galleryArray} onModalOpen={handleModal} />
       {loading && <Loader />}
       {galleryArray.length > 0 && <LoadMoreButton onLoadMore={handleLoadMore} />}
-      {/* {err && <ErrorMessage />} */}
+      {error && <ErrorMessage />}
       <ImageModal isOpen={modal} onClose={ModalClose} modalData={bigpicture} />
     </div>
   );
