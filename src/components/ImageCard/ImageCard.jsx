@@ -1,10 +1,10 @@
 import { useDispatch } from "react-redux";
 import css from "./ImageCard.module.css";
-import { openModal, setSelectedImage } from "../../redux/ModaleSlice";
-export default function ImageCard({ picture, onModalOpen }) {
+import { toggleModal, setSelectedImage } from "../../redux/ModaleSlice";
+export default function ImageCard({ picture }) {
   const dispatch = useDispatch();
    const handleModalOpen = () => {
-    dispatch(openModal(true))
+    dispatch(toggleModal(true))
     dispatch(setSelectedImage(picture))
    }
   return (

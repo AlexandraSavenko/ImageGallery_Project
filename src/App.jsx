@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import "./App.css";
 import SearchBar from "./components/SearchBar/SearchBar";
 import ImageGallery from "./components/ImageGallery/ImageGallery";
@@ -20,8 +20,8 @@ function App() {
   const error = useSelector(errorResult)
   const galleryArray = useSelector(state => state.gallery.fetchedImages)
   const loading = useSelector(loadingResult)
-  const [modal, setModal] = useState(false);
-  const [bigpicture, setBigpicture] = useState(null);
+  // const [modal, setModal] = useState(false);
+  // const [bigpicture, setBigpicture] = useState(null);
 
 const dispatch = useDispatch()
 
@@ -34,25 +34,25 @@ useEffect(()=>{
     dispatch(galleryPage(page + 1))
   };
 
-  const handleModal = (picture) => {
-    console.log(picture)
+  // const handleModal = (picture) => {
+  //   console.log(picture)
 
-    setBigpicture(picture);
-    setModal(true);
-  };
+  //   setBigpicture(picture);
+  //   setModal(true);
+  // };
 
-  const ModalClose = () => {
-    setModal(false);
-  };
+  // const ModalClose = () => {
+  //   setModal(false);
+  // };
   return (
     <div>
       <SearchBar />
       <Toaster />
-      <ImageGallery resultsArr={galleryArray} onModalOpen={handleModal} />
+      <ImageGallery resultsArr={galleryArray} />
       {loading && <Loader />}
       {galleryArray.length > 0 && <LoadMoreButton onLoadMore={handleLoadMore} />}
       {error && <ErrorMessage />}
-      <ImageModal isOpen={modal} onClose={ModalClose} modalData={bigpicture} />
+      <ImageModal />
     </div>
   );
 }

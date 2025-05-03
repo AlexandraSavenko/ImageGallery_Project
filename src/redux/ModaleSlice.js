@@ -1,5 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+export const isOpen = state => state.modal.modalIsOpen;
+export const selectedImage = state => state.modal.imageData;
+
 const slice = createSlice({
     name: 'imageModal',
     initialState: {
@@ -7,7 +10,7 @@ const slice = createSlice({
         imageData: null,
     },
     reducers: {
-        openModal(state, action){
+        toggleModal(state, action){
             state.modalIsOpen = action.payload;
         },
         setSelectedImage(state, action){
@@ -16,6 +19,6 @@ const slice = createSlice({
     }
 })
 
-export const {openModal, setSelectedImage} = slice.actions
+export const {toggleModal, setSelectedImage} = slice.actions
 
 export default slice.reducer

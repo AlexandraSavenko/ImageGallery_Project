@@ -2,23 +2,30 @@ import { useEffect } from "react";
 import ReactModal from "react-modal";
 import Loader from "../Loader/Loader";
 import css from "./ImageModal.module.css";
+import { useDispatch, useSelector } from "react-redux";
+import { isOpen, selectedImage, toggleModal } from "../../redux/ModaleSlice";
+
 // import "./ImageModal.css";
-export default function ImageModal({ isOpen, onClose, modalData }) {
+export default function ImageModal() {
+  const dispatch = useDispatch()
+  const isModalOpen = useSelector(isOpen)
+  const imageInfoObj = useSelector(selectedImage)
+
   useEffect(() => {
     const handleEsc = (event) => {
       if (event.code === "Escape" && isOpen) {
-        onClose();
+        dispatch(toggleModal(false))
       }
     };
     document.addEventListener("keydown", handleEsc);
     return () => {
-      document.removeEventListener("keydown", handleEsc);
+    document.removeEventListener("keydown", handleEsc);
     };
-  }, [isOpen, onClose]);
+  }, [dispatch, toggleModal]);
   return (
     <ReactModal
-      isOpen={isOpen}
-      onRequestClose={onClose}
+      isOpen={isModalOpen}
+      onRequestClose={toggleModal}
       ariaHideApp={true}
       shouldCloseOnEsc={true}
       shouldCloseOnOverlayClick={true}
@@ -47,11 +54,11 @@ export default function ImageModal({ isOpen, onClose, modalData }) {
       }}
     >
       <div>
-        {modalData ? (
+        {imageInfoObj ? (
           <img
             className={css.image}
-            src={modalData && modalData.urls.regular}
-            alt={modalData && modalData.urls.alt_description}
+            src={imageInfoObj && imageInfoObj.urls.regular}
+            alt={imageInfoObj && imageInfoObj.urls.alt_description}
           />
         ) : (
           <Loader />
