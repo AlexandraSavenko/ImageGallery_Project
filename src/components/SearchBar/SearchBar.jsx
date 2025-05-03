@@ -1,14 +1,15 @@
 import { BsSearch } from "react-icons/bs";
 import css from "./SearchBar.module.css";
 import toast from "react-hot-toast";
-import { useDispatch } from "react-redux";
-import { galleryPage, imagesTopic } from "../../redux/QuerySlice";
-import { saveFetchedImages } from "../../redux/ResultSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { imagesTopic, queryParams } from "../../redux/QuerySlice";
+// import { saveFetchedImages } from "../../redux/ResultSlice";
 import { useState } from "react";
 import { fetchImages } from "../../redux/galleryOps";
 
 export default function SearchBar() {
   const [input, setInput] = useState('')
+  // const qParams = useSelector(queryParams)
 const dispatch = useDispatch()
 
 const handleInputChange = (e) => {
@@ -17,7 +18,6 @@ const handleInputChange = (e) => {
 
   const handleInputSubmit = (event) => {
     event.preventDefault();
-    // const query = event.target.elements.searchword.value.trim();
     const query = input
     if (!query) {
       toast.error("Write your query, please!", {
@@ -27,12 +27,11 @@ const handleInputChange = (e) => {
       });
       return;
     }
+
     dispatch(imagesTopic(query))
-    dispatch(galleryPage(1))
-    dispatch(fetchImages(query))
-    // dispatch(saveFetchedImages([]))
+    // dispatch(galleryPage(1))
+    // dispatch(fetchImages({qParams}))
     setInput('')
-    // onSubmit();
   };
   return (
     <header className={css.header}>

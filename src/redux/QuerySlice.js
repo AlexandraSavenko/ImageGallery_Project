@@ -1,17 +1,23 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+export const queryParams = state => state.query.params
+
 const slice = createSlice({
     name: 'query',
     initialState: {
-        images: '',
+        params: 
+        {query: '',
         page: 1
+    }
+        
     },
     reducers: {
         imagesTopic(state, action){
-            state.images = action.payload
+            state.params.query = action.payload;
+            console.log(state.params.query)
         },
         galleryPage(state, action){
-            state.page = action.payload
+            state.params.page = action.payload
         }
     }
 })
