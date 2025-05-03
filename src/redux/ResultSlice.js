@@ -16,7 +16,6 @@ const slice = createSlice({
         .addCase(fetchImages.fulfilled, (state,action) => {
             state.fetchedImages.length > 0 ? state.fetchedImages = [...state.fetchedImages, ...action.payload] :
         state.fetchedImages = action.payload
-            console.log(state.fetchedImages)
         state.loading = false;})
         .addCase(fetchImages.rejected, (state, action) => {state.loading = false
             state.error = action.payload

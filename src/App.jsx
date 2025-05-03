@@ -27,12 +27,10 @@ const dispatch = useDispatch()
 
 useEffect(()=>{
   if(!query)return;
-  console.log(page)
   dispatch(fetchImages({query: query, page: page, perPage: 12}))
 }, [dispatch, query, page])
 
   const handleLoadMore = () => {
-    console.log('load more', page)
     dispatch(galleryPage(page + 1))
   };
 
