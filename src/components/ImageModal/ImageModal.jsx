@@ -13,7 +13,7 @@ export default function ImageModal() {
 
   useEffect(() => {
     const handleEsc = (event) => {
-      if (event.code === "Escape" && isOpen) {
+      if (event.code === "Escape" && isModalOpen) {
         dispatch(toggleModal(false))
       }
     };
@@ -21,11 +21,15 @@ export default function ImageModal() {
     return () => {
     document.removeEventListener("keydown", handleEsc);
     };
-  }, [dispatch, toggleModal]);
+  }, [dispatch, isModalOpen]);
+
+  const handleModalClose = () => {
+    dispatch(toggleModal(false))
+  }
   return (
     <ReactModal
       isOpen={isModalOpen}
-      onRequestClose={toggleModal}
+      onRequestClose={handleModalClose}
       ariaHideApp={true}
       shouldCloseOnEsc={true}
       shouldCloseOnOverlayClick={true}
