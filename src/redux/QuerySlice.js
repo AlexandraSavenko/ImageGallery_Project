@@ -7,9 +7,7 @@ const slice = createSlice({
     initialState: {
         params: 
         {query: '',
-        page: 1
-    }
-        
+        page: 1}
     },
     reducers: {
         imagesTopic(state, action){

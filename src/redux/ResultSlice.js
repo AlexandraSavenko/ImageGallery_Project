@@ -20,11 +20,6 @@ const slice = createSlice({
         .addCase(fetchImages.rejected, (state, action) => {state.loading = false
             state.error = action.payload
         })}
-    // reducers: {
-    //     saveFetchedImages(state, action){
-    //         state.fetchedImages = action.payload
-    //     }
-    // }
 })
 
 export const {saveFetchedImages} = slice.actions

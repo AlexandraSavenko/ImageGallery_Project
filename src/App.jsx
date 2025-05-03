@@ -35,6 +35,8 @@ useEffect(()=>{
   };
 
   const handleModal = (picture) => {
+    console.log(picture)
+
     setBigpicture(picture);
     setModal(true);
   };
