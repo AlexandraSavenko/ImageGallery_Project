@@ -1,15 +1,12 @@
 import { BsSearch } from "react-icons/bs";
 import css from "./SearchBar.module.css";
 import toast from "react-hot-toast";
-import { useDispatch, useSelector } from "react-redux";
-import { imagesTopic, queryParams } from "../../redux/QuerySlice";
-// import { saveFetchedImages } from "../../redux/ResultSlice";
+import { useDispatch } from "react-redux";
+import { imagesTopic } from "../../redux/QuerySlice";
 import { useState } from "react";
-import { fetchImages } from "../../redux/galleryOps";
 
 export default function SearchBar() {
-  const [input, setInput] = useState('')
-  // const qParams = useSelector(queryParams)
+const [input, setInput] = useState('')
 const dispatch = useDispatch()
 
 const handleInputChange = (e) => {
@@ -29,8 +26,6 @@ const handleInputChange = (e) => {
     }
 
     dispatch(imagesTopic(query))
-    // dispatch(galleryPage(1))
-    // dispatch(fetchImages({qParams}))
     setInput('')
   };
   return (

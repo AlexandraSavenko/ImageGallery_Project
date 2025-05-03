@@ -16,7 +16,7 @@ import { errorResult, loadingResult } from "./redux/ResultSlice";
 Modal.setAppElement("#root");
 
 function App() {
-  const {query, galPage} = useSelector(queryParams)
+  const {query, page} = useSelector(queryParams)
   const error = useSelector(errorResult)
   const galleryArray = useSelector(state => state.gallery.fetchedImages)
   const loading = useSelector(loadingResult)
@@ -27,11 +27,13 @@ const dispatch = useDispatch()
 
 useEffect(()=>{
   if(!query)return;
-  dispatch(fetchImages({query: query, page: galPage, perPage: 12}))
-}, [dispatch, query, galPage])
+  console.log(page)
+  dispatch(fetchImages({query: query, page: page, perPage: 12}))
+}, [dispatch, query, page])
 
   const handleLoadMore = () => {
-    dispatch(galleryPage(galPage + 1))
+    console.log('load more', page)
+    dispatch(galleryPage(page + 1))
   };
 
   const handleModal = (picture) => {

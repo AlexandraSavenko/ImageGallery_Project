@@ -14,7 +14,7 @@ const slice = createSlice({
     extraReducers: (builder) => {builder
         .addCase(fetchImages.pending, (state) => {state.loading = true})
         .addCase(fetchImages.fulfilled, (state,action) => {
-            if(state.fetchedImages.length > 0) state.fetchedImages = [...state.fetchedImages, ...action.payload];
+            state.fetchedImages.length > 0 ? state.fetchedImages = [...state.fetchedImages, ...action.payload] :
         state.fetchedImages = action.payload
             console.log(state.fetchedImages)
         state.loading = false;})
